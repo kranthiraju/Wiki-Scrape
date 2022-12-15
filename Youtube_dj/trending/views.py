@@ -16,14 +16,18 @@ def get_details(request,country_name):
     for c in range(len(infobox_data)):
         th_data=infobox_data[c].find('th')
 
+        if (th_data!=None and th_data.get_text()=="Capitaland largest city"):
+            capitals = [i.get('title') for i in infobox_data[c].find_all('a') if i.get('title') is not None]
+            large_cities=capitals
+
         if (th_data!=None and th_data.get_text()=="Capital"):
             capitals = [i.get('title') for i in infobox_data[c].find_all('a') if i.get('title') is not None]
 
         if (th_data!=None and th_data.get_text()=="Largest city"):
             large_cities = [i.get('title') for i in infobox_data[c].find_all('a') if i.get('title') is not None]
 
-        if (th_data!=None and "fficial" in th_data.get_text() and "languages" in th_data.get_text()):
-            offical_languages = [i.get('title') for i in infobox_data[c].find('ul').find_all('a') if i.get('title') is not None]
+        if (th_data!=None and "Official" in th_data.get_text() and "languages" in th_data.get_text()):
+            offical_languages = [i.get('title') for i in infobox_data[c].find('td').find_all('a') if i.get('title') is not None]
 
         if(th_data!=None and th_data.find('a')!=None and th_data.find('a').get_text()=="Area "):
             area_total= infobox_data[c+1].find('td').get_text().split('[')[0].split('(')[0]
